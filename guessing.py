@@ -20,12 +20,20 @@ while guess != secret:
     else:
         print(f"Sorry, your guess is not correct... The secret number is not {guess}")
 
-# TODO: read file "hiscore.txt", get current highscore
+# get current highscore (as a number)
+file = open("hiscore.txt", "r")
+content = file.read()
+hiscore = int(content)
+file.close()
 
-# TODO: say "you are better than last time" if highscore improved
 print(f"It took you {attempts} tries.")
 
-# TODO: save current number of attempts to file "hiscore.txt" if better than highscore
-hiscore = open("hiscore.txt", "w")
-hiscore.write(f"{attempts}")
-hiscore.close()
+# if better than highscore
+if attempts < hiscore:
+    # say "you are better than last time" if highscore improved
+    print("Congratulations! You made a new highscore!")
+
+    file = open("hiscore.txt", "w")
+    text = str(attempts)
+    file.write(text)
+    file.close()
