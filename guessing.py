@@ -8,6 +8,9 @@ secret = random.randint(minimum, maximum)
 guess = None
 attempts = 0
 
+player = input("What is your nickname? ")
+player = player.replace(' ', '-')
+
 while guess != secret:
     input_text = input(f"Guess the secret number (between {minimum} and {maximum}): ")
     try:
@@ -27,23 +30,24 @@ while guess != secret:
 try:
     file = open("hiscore.txt", "r")
     content = file.read()
-    hiscore = int(content)
+    champion, score = content.split()
+    hiscore = int(score)
     file.close()
 except FileNotFoundError:
-    hiscore = 999_999_999
+    champion, hiscore = None, 999_999_999
 except ValueError:
     print("Highscore file is corrupt.")
-    hiscore = 999_999_999
+    champion, hiscore = None, 999_999_999
 
 print(f"It took you {attempts} tries.")
 
 if attempts < hiscore:
-    print("Congratulations! You made a new highscore!")
+    print(f"Congratulations! You defeated {champion} with a new highscore!")
 
     try:
         file = open("hiscore.txt", "w")
         text = str(attempts)
-        file.write(text)
+        file.write(f"{player} {attempts}")
         file.close()
     except IOError as error:
         print(f"Error writing file: {error}")
